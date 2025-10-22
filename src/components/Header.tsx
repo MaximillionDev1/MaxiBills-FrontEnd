@@ -21,6 +21,8 @@ const Header: React.FC = () => {
 		{ name: "Transaçoes", path: "/transacoes" },
 	];
 
+	const [avatarLoadError, setAvatarLoadError] = useState<boolean>(false);
+
 	const handleSignOut = (): void => {
 		setIsOpen(false);
 		signOut();
@@ -30,22 +32,28 @@ const Header: React.FC = () => {
 		setIsOpen(!isOpen);
 	};
 
+	// Função de renderização do avatar com fallback
 	const renderAvatar = () => {
-		if (!authState.user) return null;
+		// Ajuste seguro: se não houver usuário, não renderiza nada
+		const user = authState?.user;
+		if (!user) return null;
 
-		if (authState.user.photoURL) {
+		// Em caso de foto disponível e ainda sem erro de carregamento
+		if (user.photoURL && !avatarLoadError) {
 			return (
 				<img
-					src={authState.user.photoURL}
-					alt={`foto de perfil do(a) ${authState.user.displayName}`}
+					src={user.photoURL}
+					alt={`foto de perfil do(a) ${user.displayName ?? ""}`}
 					className="w-8 h-8 rounded-full border border-gray-700"
+					onError={() => setAvatarLoadError(true)} // se falhar o carregamento, usa fallback
 				/>
 			);
 		}
 
+		// Fallback: iniciais dentro do círculo
 		return (
 			<div className="w-8 h-8 rounded-full bg-primary-500 flex items-center justify-center text-white">
-				{authState.user.displayName?.charAt(0)}
+				{(user.displayName?.charAt(0) ?? "").toUpperCase()}
 			</div>
 		);
 	};
@@ -129,7 +137,7 @@ const Header: React.FC = () => {
 										<Link
 											to={link.path}
 											key={link.path}
-											className={`block p-5 rounded'lg ${
+											className={`block p-5 rounded-lg ${
 												pathname === link.path
 													? "text-primary-500 bg-primary-500/10 font-medium"
 													: "text-gray-400 hover:text-primary-500 hover:bg-primary-500/5"
