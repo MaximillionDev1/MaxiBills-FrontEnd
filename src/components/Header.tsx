@@ -32,13 +32,10 @@ const Header: React.FC = () => {
 		setIsOpen(!isOpen);
 	};
 
-	// Função de renderização do avatar com fallback
 	const renderAvatar = () => {
-		// Ajuste seguro: se não houver usuário, não renderiza nada
 		const user = authState?.user;
 		if (!user) return null;
 
-		// Em caso de foto disponível e ainda sem erro de carregamento
 		if (user.photoURL && !avatarLoadError) {
 			return (
 				<img

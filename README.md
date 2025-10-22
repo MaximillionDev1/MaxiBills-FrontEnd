@@ -5,6 +5,12 @@ Com uma interface fluida e responsiva, o usuário tem acesso a **gráficos em pi
 
 ---
 
+## 🎥 Demonstração
+
+Veja o MaxiBills em ação 👇
+
+![Demonstração do App](./src/assets/demo-maxibills.gif)
+
 ## 🚀 Tecnologias Utilizadas
 
 - ⚛️ **React 19** – Biblioteca principal para construção da interface  
